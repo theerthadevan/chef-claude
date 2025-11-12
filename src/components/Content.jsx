@@ -10,6 +10,13 @@ export default function Content() {
     const [ingredients, setIngredients] = React.useState([])
     const [recipe, setRecipe] = React.useState("")
     const [isLoading, setIsLoading] = React.useState(false)
+    const recipeSection = React.useRef(null)
+
+    React.useEffect(() =>{
+        if(recipe && recipeSection.current!==null) {
+            recipeSection.current.scrollIntoView({behavior: "smooth"})
+        }
+    }, [recipe])
 
     function addIngredients(formData) {
         const newIngredient = formData.get("ingredient")
@@ -40,7 +47,7 @@ export default function Content() {
             </form>
         {ingredients.length > 0 && 
         <IngredientsList ingredients = {ingredients}  
-        getRecipe ={getRecipe}/>}
+        getRecipe ={getRecipe} ref={recipeSection} />}
         
         <AnimatePresence>
             {isLoading && (<motion.div key="loading" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{duration: 0.3}}>
